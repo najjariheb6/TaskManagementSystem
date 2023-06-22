@@ -1,6 +1,7 @@
 package com.najjar.taskmanagementsystem.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ public class User {
     private Long id;
     private String username;
     private String password;
+    @NotNull
     private String email;
     @Enumerated(EnumType.STRING)
     private Roles role;
