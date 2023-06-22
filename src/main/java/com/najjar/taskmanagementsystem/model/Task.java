@@ -1,8 +1,5 @@
 package com.najjar.taskmanagementsystem.model;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,14 +15,14 @@ import java.util.Date;
 @NoArgsConstructor
 public class Task {
     @Id
+    @GeneratedValue (strategy = GenerationType.AUTO)
     private Long id;
     private String title;
     private String description;
     private int status;
     private int priority;
     private LocalDate dueDate;
-    @ManyToOne
-    private User assignedUser;
+    private Long assignedUserId;
 
 //    public void assignToUser(User user) {
 //        this.assignedUser = user;

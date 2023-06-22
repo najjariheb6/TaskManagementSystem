@@ -10,12 +10,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/teams")
 public class TeamController {
-    private final TeamService teamService;
-
     @Autowired
-    public TeamController(TeamService teamService) {
-        this.teamService = teamService;
-    }
+    private TeamService teamService;
 
     @GetMapping
     public List<Team> getAllTeams() {

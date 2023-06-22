@@ -1,8 +1,5 @@
 package com.najjar.taskmanagementsystem.model;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,11 +14,10 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class Comment {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne
-    private Task taskId;
-    @OneToOne
-    private User userId;
+    private Long taskId;
+    private Long userId;
     private String message;
     private Timestamp timestamp;
 }

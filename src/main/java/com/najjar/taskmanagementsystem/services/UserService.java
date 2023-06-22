@@ -1,6 +1,7 @@
 package com.najjar.taskmanagementsystem.services;
 
 import com.najjar.taskmanagementsystem.model.User;
+import com.najjar.taskmanagementsystem.repositories.TeamRepository;
 import com.najjar.taskmanagementsystem.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,12 +11,11 @@ import java.util.NoSuchElementException;
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private TeamRepository teamRepository;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -24,6 +24,9 @@ public class UserService {
     public User getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + id));
+    }
+    public List<User> getUsersByTeamId(Long id){
+        return userRepository.findAllByTeamId(id);
     }
 
     public User createUser(User user) {
@@ -37,8 +40,7 @@ public class UserService {
         existingUser.setUsername(updatedUser.getUsername());
         existingUser.setPassword(updatedUser.getPassword());
         existingUser.setEmail(updatedUser.getEmail());
-        existingUser.setRole(updatedUser.getRole());
-        existingUser.setTeam(updatedUser.getTeam());
+        existingUser.setTeamId(updatedUser.getTeamId());
 
         return userRepository.save(existingUser);
     }

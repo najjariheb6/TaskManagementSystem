@@ -1,6 +1,7 @@
 package com.najjar.taskmanagementsystem.services;
 
 import com.najjar.taskmanagementsystem.model.Team;
+import com.najjar.taskmanagementsystem.model.User;
 import com.najjar.taskmanagementsystem.repositories.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,12 +11,8 @@ import java.util.NoSuchElementException;
 
 @Service
 public class TeamService {
-    private final TeamRepository teamRepository;
-
     @Autowired
-    public TeamService(TeamRepository teamRepository) {
-        this.teamRepository = teamRepository;
-    }
+    private TeamRepository teamRepository;
 
     public List<Team> getAllTeams() {
         return teamRepository.findAll();

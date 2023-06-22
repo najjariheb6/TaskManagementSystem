@@ -10,16 +10,13 @@ import java.util.NoSuchElementException;
 
 @Service
 public class TaskService {
-    private final TaskRepository taskRepository;
+
     @Autowired
-    public TaskService(TaskRepository taskRepository){
-        this.taskRepository = taskRepository;
-    }
+    private TaskRepository taskRepository;
 
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
-
     public Task getTaskById(Long id) {
         return taskRepository.getReferenceById(id);
     }
@@ -38,7 +35,7 @@ public class TaskService {
         existingTask.setStatus(updatedTask.getStatus());
         existingTask.setPriority(updatedTask.getPriority());
         existingTask.setDueDate(updatedTask.getDueDate());
-        existingTask.setAssignedUser(updatedTask.getAssignedUser());
+        existingTask.setAssignedUserId(updatedTask.getAssignedUserId());
 
         // Save the updated task in the database
         return taskRepository.save(existingTask);
@@ -47,4 +44,5 @@ public class TaskService {
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
     }
+
 }

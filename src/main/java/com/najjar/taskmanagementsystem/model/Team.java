@@ -1,8 +1,5 @@
 package com.najjar.taskmanagementsystem.model;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,9 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Team {
     @Id
+    @GeneratedValue (strategy = GenerationType.AUTO)
     private Long teamId;
     private String name;
     private String description;
-    @OneToMany(mappedBy = "team")
-    private List<User> members = new ArrayList<>();
 }

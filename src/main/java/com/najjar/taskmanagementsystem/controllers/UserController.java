@@ -10,12 +10,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    private final UserService userService;
-
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @GetMapping
     public List<User> getAllUsers() {
@@ -40,5 +36,10 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+    }
+
+    @GetMapping("/{teamId}/users")
+    public List<User> getUsersByTeamId(@PathVariable Long teamId) {
+        return userService.getUsersByTeamId(teamId);
     }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import lombok.Setter;
 
 @Entity
@@ -13,13 +14,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String password;
     private String email;
-    private String role;
-    @ManyToOne
-    @JoinColumn(name = "teamId")
-    private Team team;
+    @Enumerated(EnumType.STRING)
+    private Roles role;
+    private Long teamId;
 }
