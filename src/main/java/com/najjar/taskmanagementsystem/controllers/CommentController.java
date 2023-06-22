@@ -23,6 +23,11 @@ public class CommentController {
         return commentService.getCommentById(id);
     }
 
+    @GetMapping("/task/{taskId}")
+    public List<Comment> getCommentsBytaskId(@PathVariable Long taskId) {
+        return commentService.getCommentsBytaskId(taskId);
+    }
+
     @PostMapping
     public Comment createComment(@RequestBody Comment comment) {
         return commentService.createComment(comment);
@@ -36,5 +41,10 @@ public class CommentController {
     @DeleteMapping("/{id}")
     public void deleteComment(@PathVariable Long id) {
         commentService.deleteComment(id);
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<Comment> getCommentByUserId(@PathVariable Long userId){
+        return commentService.getCommentsByUserId(userId);
     }
 }

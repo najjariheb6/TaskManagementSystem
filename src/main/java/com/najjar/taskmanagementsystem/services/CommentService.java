@@ -42,4 +42,12 @@ public class CommentService {
     public void deleteComment(Long id) {
         commentRepository.deleteById(id);
     }
+
+    public List<Comment> getCommentsBytaskId(Long taskId) {
+        return commentRepository.findByTaskId(taskId);
+    }
+
+    public List<Comment> getCommentsByUserId(Long userId) {
+        return commentRepository.findByUserId(userId);
+    }
 }

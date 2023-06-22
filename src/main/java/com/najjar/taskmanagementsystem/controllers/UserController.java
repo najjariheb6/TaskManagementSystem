@@ -38,7 +38,7 @@ public class UserController {
         userService.deleteUser(id);
     }
 
-    @GetMapping("/{teamId}/users")
+    @GetMapping("/team/{teamId}")
     public List<User> getUsersByTeamId(@PathVariable Long teamId) {
         return userService.getUsersByTeamId(teamId);
     }

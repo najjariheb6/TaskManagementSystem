@@ -1,12 +1,13 @@
 package com.najjar.taskmanagementsystem.model;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -21,7 +22,7 @@ public class Task {
     private String description;
     private int status;
     private int priority;
-    private LocalDate dueDate;
+    private Timestamp dueDate;
     private Long assignedUserId;
 
 //    public void assignToUser(User user) {
@@ -32,10 +33,5 @@ public class Task {
 //        this.status = status;
 //    }
 //
-//    public void updateTask(String title, String description, int priority, LocalDate dueDate) {
-//        this.title = title;
-//        this.description = description;
-//        this.priority = priority;
-//        this.dueDate = dueDate;
-//    }
+
 }
