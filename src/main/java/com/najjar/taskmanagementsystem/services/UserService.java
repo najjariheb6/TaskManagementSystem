@@ -26,7 +26,7 @@ public class UserService {
                 .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + id));
     }
     public List<User> getUsersByTeamId(Long id){
-        return userRepository.findAllByTeamId(id);
+        return userRepository.findByTeamId(id);
     }
 
     public User createUser(User user) {
