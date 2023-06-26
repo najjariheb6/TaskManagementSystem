@@ -18,7 +18,8 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
+    // attribute username is used by jwt by value of email.
+    private String name;
     private String password;
     @NotNull
     private String email;
@@ -29,6 +30,10 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
+    }
+    @Override
+    public String getUsername() {
+        return this.email;
     }
     @Override
     public boolean isAccountNonExpired() {

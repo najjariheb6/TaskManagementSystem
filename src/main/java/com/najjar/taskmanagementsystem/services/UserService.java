@@ -37,7 +37,7 @@ public class UserService {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + id));
 
-        existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setName(updatedUser.getName());
         existingUser.setPassword(updatedUser.getPassword());
         existingUser.setEmail(updatedUser.getEmail());
         existingUser.setTeamId(updatedUser.getTeamId());
