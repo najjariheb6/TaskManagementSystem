@@ -1,5 +1,6 @@
 package com.najjar.taskmanagementsystem.model;
 
+import com.najjar.taskmanagementsystem.model.enums.Roles;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

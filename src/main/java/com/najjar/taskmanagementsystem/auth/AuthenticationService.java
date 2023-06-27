@@ -1,7 +1,7 @@
 package com.najjar.taskmanagementsystem.auth;
 
 import com.najjar.taskmanagementsystem.config.JwtService;
-import com.najjar.taskmanagementsystem.model.Roles;
+import com.najjar.taskmanagementsystem.model.enums.Roles;
 import com.najjar.taskmanagementsystem.model.User;
 import com.najjar.taskmanagementsystem.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
