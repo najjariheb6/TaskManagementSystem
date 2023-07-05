@@ -31,12 +31,12 @@ public class User implements UserDetails {
     private Roles role;
     private Long teamId;
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Token> tokens;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return role.getAuthorities();
     }
     @Override
     public String getUsername() {

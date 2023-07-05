@@ -4,13 +4,16 @@ import com.najjar.taskmanagementsystem.model.User;
 import com.najjar.taskmanagementsystem.model.dto.UserDTO;
 import com.najjar.taskmanagementsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
+//@PreAuthorize("hasRole('Admin')")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -32,14 +35,19 @@ public class UserController {
 
     @GetMapping("/{id}")
     public UserDTO getUserById(@PathVariable Long id) {
-        User user= userService.getUserById(id);
-        return UserDTO.builder()
+        Optional<User> optionalUser = userService.getUserById(id);
+        if (optionalUser.isEmpty()) {
+            return null;
+        }
+        User user = optionalUser.get();
+        UserDTO userDTO = UserDTO.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
                 .role(user.getRole())
                 .teamId(user.getTeamId())
                 .build();
+        return userDTO;
     }
 
     @PostMapping
@@ -53,6 +61,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('admin:delete')")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }

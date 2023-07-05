@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -21,12 +22,11 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + id));
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
     }
 
-    public List<User> getUsersByTeamId(Long id){
+    public List<User> getUsersByTeamId(Long id) {
         return userRepository.findByTeamId(id);
     }
 
@@ -37,12 +37,12 @@ public class UserService {
     public User updateUser(Long id, User updatedUser) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + id));
-
-        existingUser.setName(updatedUser.getName());
-        existingUser.setPassword(updatedUser.getPassword());
-        existingUser.setEmail(updatedUser.getEmail());
-        existingUser.setTeamId(updatedUser.getTeamId());
-
+        existingUser.builder()
+                .name(updatedUser.getName())
+                .password(updatedUser.getPassword())
+                .email(updatedUser.getEmail())
+                .teamId(updatedUser.getTeamId())
+                .build();
         return userRepository.save(existingUser);
     }
 
