@@ -1,6 +1,8 @@
 package com.najjar.taskmanagementsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.najjar.taskmanagementsystem.model.enums.Roles;
+import com.najjar.taskmanagementsystem.token.Token;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -9,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
@@ -27,6 +30,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Roles role;
     private Long teamId;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

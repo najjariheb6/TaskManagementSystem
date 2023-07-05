@@ -22,12 +22,15 @@ public class TaskService {
     private TaskRepository taskRepository;
     @Autowired
     private UserRepository userRepository;
+
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
+
     public Optional<Task> getTaskById(Long taskId) {
         return taskRepository.findById(taskId);
     }
+
     public List<Task> searchTasks(Integer priority, String status, Long assignedTo) {
         // Create a specification for filtering tasks based on the provided criteria
         Specification<Task> spec = Specification.where(null);
@@ -48,15 +51,15 @@ public class TaskService {
 
         return tasks;
     }
+
     public Task createTask(Task task) {
         return taskRepository.save(task);
     }
+
     public Task updateTask(Long id, Task updatedTask) {
-        Task existingTask = taskRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + id));
+        Task existingTask = taskRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + id));
         Long assignedUserId = updatedTask.getAssignedUserId();
-        User user = userRepository.findById(assignedUserId)
-                .orElseThrow(() -> new NoSuchElementException("User not found"));
+        User user = userRepository.findById(assignedUserId).orElseThrow(() -> new NoSuchElementException("User not found"));
 
         // Update the fields of the existing task with the new values
         //if (updatedTask.getDescription() != null) {...}
@@ -70,6 +73,7 @@ public class TaskService {
         // Save the updated task in the database
         return taskRepository.save(existingTask);
     }
+
     public Task updateTaskStatus(Long id, TaskStatus status) {
         Task existingTask = taskRepository.getReferenceById(id);
 
@@ -78,6 +82,7 @@ public class TaskService {
         // Save the updated task in the database
         return taskRepository.save(existingTask);
     }
+
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
     }

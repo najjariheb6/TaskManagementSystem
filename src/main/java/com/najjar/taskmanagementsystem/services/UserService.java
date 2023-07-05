@@ -25,6 +25,7 @@ public class UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + id));
     }
+
     public List<User> getUsersByTeamId(Long id){
         return userRepository.findByTeamId(id);
     }
