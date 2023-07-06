@@ -13,12 +13,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
-//@PreAuthorize("hasRole('Admin')")
 public class UserController {
     @Autowired
     private UserService userService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('manager:read')")
     public List<UserDTO> getAllUsers() {
         List<User> userList = userService.getAllUsers();
         List<UserDTO> userDTOList = userList.stream()
@@ -51,11 +51,13 @@ public class UserController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('manager:create')")
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('manager:update')")
     public User updateUser(@PathVariable Long id, @RequestBody User user) {
         return userService.updateUser(id, user);
     }
@@ -67,6 +69,7 @@ public class UserController {
     }
 
     @GetMapping("/team/{teamId}")
+    @PreAuthorize("hasAuthority('manager:read')")
     public List<User> getUsersByTeamId(@PathVariable Long teamId) {
         return userService.getUsersByTeamId(teamId);
     }

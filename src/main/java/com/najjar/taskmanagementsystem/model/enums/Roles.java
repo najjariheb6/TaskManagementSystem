@@ -16,10 +16,22 @@ public enum Roles {
     Developer(
 //            Collections.emptySet()
             Set.of(
+                    DEVELOPER_READ,
+                    DEVELOPER_UPDATE,
+                    DEVELOPER_CREATE,
+                    DEVELOPER_DELETE
+            )
+    ),
+    Manager(
+            Set.of(
                     MANAGER_READ,
                     MANAGER_CREATE,
                     MANAGER_UPDATE,
-                    MANAGER_DELETE
+                    MANAGER_DELETE,
+                    DEVELOPER_READ,
+                    DEVELOPER_UPDATE,
+                    DEVELOPER_CREATE,
+                    DEVELOPER_DELETE
             )
     ),
     Admin(
@@ -31,15 +43,11 @@ public enum Roles {
                     MANAGER_READ,
                     MANAGER_CREATE,
                     MANAGER_UPDATE,
-                    MANAGER_DELETE
-            )
-    ),
-    Manager(
-            Set.of(
-                    MANAGER_READ,
-                    MANAGER_CREATE,
-                    MANAGER_UPDATE,
-                    MANAGER_DELETE
+                    MANAGER_DELETE,
+                    DEVELOPER_READ,
+                    DEVELOPER_UPDATE,
+                    DEVELOPER_CREATE,
+                    DEVELOPER_DELETE
             )
     );
 

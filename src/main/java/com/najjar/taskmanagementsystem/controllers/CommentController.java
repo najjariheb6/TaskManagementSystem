@@ -3,6 +3,7 @@ package com.najjar.taskmanagementsystem.controllers;
 import com.najjar.taskmanagementsystem.model.Comment;
 import com.najjar.taskmanagementsystem.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class CommentController {
     }
 
     @GetMapping("/task/{taskId}")
-    public List<Comment> getCommentsBytaskId(@PathVariable Long taskId) {
+    public List<Comment> getCommentsByTaskId(@PathVariable Long taskId) {
         return commentService.getCommentsBytaskId(taskId);
     }
 
