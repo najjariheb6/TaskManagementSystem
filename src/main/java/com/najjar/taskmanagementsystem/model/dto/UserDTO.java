@@ -1,6 +1,7 @@
 package com.najjar.taskmanagementsystem.model.dto;
 
 import com.najjar.taskmanagementsystem.model.enums.Roles;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 @Getter

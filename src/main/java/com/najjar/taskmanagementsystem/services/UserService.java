@@ -37,13 +37,7 @@ public class UserService {
     public User updateUser(Long id, User updatedUser) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + id));
-        existingUser.builder()
-                .name(updatedUser.getName())
-                .password(updatedUser.getPassword())
-                .email(updatedUser.getEmail())
-                .teamId(updatedUser.getTeamId())
-                .build();
-        return userRepository.save(existingUser);
+        return userRepository.save(updatedUser);
     }
 
     public void deleteUser(Long id) {

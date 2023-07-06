@@ -1,10 +1,19 @@
 package com.najjar.taskmanagementsystem.controllers;
 
 import com.najjar.taskmanagementsystem.model.User;
+import com.najjar.taskmanagementsystem.model.dto.ApiError;
+import com.najjar.taskmanagementsystem.model.dto.ApiResponse;
 import com.najjar.taskmanagementsystem.model.dto.UserDTO;
+import com.najjar.taskmanagementsystem.model.dto.UserMapper;
+import com.najjar.taskmanagementsystem.model.enums.Roles;
 import com.najjar.taskmanagementsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +25,10 @@ import java.util.stream.Collectors;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private UserMapper userMapper;
 
     @GetMapping
     @PreAuthorize("hasAuthority('manager:read')")
@@ -50,6 +63,12 @@ public class UserController {
         return userDTO;
     }
 
+    @GetMapping("/team/{teamId}")
+    @PreAuthorize("hasAuthority('manager:read')")
+    public List<User> getUsersByTeamId(@PathVariable Long teamId) {
+        return userService.getUsersByTeamId(teamId);
+    }
+
     @PostMapping
     @PreAuthorize("hasAuthority('manager:create')")
     public User createUser(@RequestBody User user) {
@@ -57,9 +76,62 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('manager:update')")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        return userService.updateUser(id, user);
+    @PreAuthorize("hasAuthority('developer:update')")
+    public ResponseEntity<ApiResponse> updateUser(@PathVariable Long id, @RequestBody UserDTO updatedUserDTO) {
+        User currentUser = getCurrentUser();
+        if (currentUser != null && currentUser.getId().equals(id)) {
+            if (updatedUserDTO.getName() != null)
+                currentUser.setName(updatedUserDTO.getName());
+            if (updatedUserDTO.getEmail() != null)
+                currentUser.setEmail(updatedUserDTO.getEmail());
+            User savedUser = userService.updateUser(id, currentUser);
+            return ResponseEntity.status(HttpStatus.CREATED).body(
+                    new ApiResponse<>("success", "Updated successfully", userMapper.convertToDto(savedUser))
+            );
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ApiResponse<>(
+                                "Error",
+                                "FORBIDDEN: You do not have permission to perform this action.",
+                                null
+                        )
+                );
+    }
+
+    @PutMapping("/{id}/role")
+    @PreAuthorize("hasAuthority('manager:update')") //to be modified
+    public ResponseEntity<ApiResponse> updateUserRole(@PathVariable Long id, @RequestBody Roles role) {
+        Optional<User> existingUserOptional = userService.getUserById(id);
+        if (existingUserOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>("Error", "NOT_FOUND: User not found with ID: " + id, null));
+        }
+
+        User existingUser = existingUserOptional.get();
+        existingUser.setRole(role);
+        User updatedUser = userService.updateUser(id, existingUser);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                new ApiResponse<>("success", "Updated successfully", userMapper.convertToDto(updatedUser))
+        );
+    }
+
+    @PutMapping("/{id}/role")
+    @PreAuthorize("hasAuthority('admin:update')")
+    public ResponseEntity<ApiResponse> updateUserTeam(@PathVariable Long id, @RequestBody Long teamId) {
+        Optional<User> existingUserOptional = userService.getUserById(id);
+        if (existingUserOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>("Error", "NOT_FOUND: User not found with ID: " + id, null));
+        }
+
+        User existingUser = existingUserOptional.get();
+        existingUser.setTeamId(teamId);
+        User updatedUser = userService.updateUser(id, existingUser);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                new ApiResponse<>("success", "Updated successfully", userMapper.convertToDto(updatedUser))
+        );
     }
 
     @DeleteMapping("/{id}")
@@ -68,9 +140,22 @@ public class UserController {
         userService.deleteUser(id);
     }
 
-    @GetMapping("/team/{teamId}")
-    @PreAuthorize("hasAuthority('manager:read')")
-    public List<User> getUsersByTeamId(@PathVariable Long teamId) {
-        return userService.getUsersByTeamId(teamId);
+    private User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof User) {
+            return (User) authentication.getPrincipal();
+        }
+        return null;
+    }
+
+    @GetMapping("/current_user")
+    public ResponseEntity<UserDTO> getCurrentUserDetails() {
+        User currentUser = getCurrentUser();
+        if (currentUser != null) {
+            UserDTO userDTO = userMapper.convertToDto(currentUser);
+            return ResponseEntity.ok(userDTO);
+        }
+        // Return appropriate response if no authenticated user found
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 }
