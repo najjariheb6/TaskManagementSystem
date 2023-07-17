@@ -116,7 +116,7 @@ public class UserController {
         );
     }
 
-    @PutMapping("/{id}/role")
+    @PutMapping("/{id}/team")
     @PreAuthorize("hasAuthority('admin:update')")
     public ResponseEntity<ApiResponse> updateUserTeam(@PathVariable Long id, @RequestBody Long teamId) {
         Optional<User> existingUserOptional = userService.getUserById(id);
