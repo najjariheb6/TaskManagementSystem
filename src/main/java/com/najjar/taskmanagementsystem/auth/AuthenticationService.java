@@ -1,6 +1,7 @@
 package com.najjar.taskmanagementsystem.auth;
 
 import com.najjar.taskmanagementsystem.config.JwtService;
+import com.najjar.taskmanagementsystem.model.dto.ApiResponse;
 import com.najjar.taskmanagementsystem.model.enums.Roles;
 import com.najjar.taskmanagementsystem.model.User;
 import com.najjar.taskmanagementsystem.repositories.UserRepository;
@@ -8,6 +9,9 @@ import com.najjar.taskmanagementsystem.token.Token;
 import com.najjar.taskmanagementsystem.token.TokenRepository;
 import com.najjar.taskmanagementsystem.token.TokenType;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +25,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
                 .email(request.getEmail())
@@ -73,5 +78,17 @@ public class AuthenticationService {
             t.setRevoked(true);
         });
         tokenRepository.saveAll(validUserTokens);
+    }
+
+    public ApiResponse<Object> forgotPassword(ForgotPasswordRequest request) {
+        // Implement the logic to verify the email
+        var user = repository.findByEmail(request.getEmail())
+                .orElseThrow();
+        // generate a token
+        var jwtToken = jwtService.generateToken(user);
+        revokeAllUserTokens(user);
+        saveUserToken(user, jwtToken);
+        emailService.sendEmail(request.getEmail(), "Change Password", jwtToken);
+        return new ApiResponse<>("404", "check your email for password changing",null);
     }
 }

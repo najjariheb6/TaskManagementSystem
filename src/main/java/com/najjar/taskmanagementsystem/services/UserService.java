@@ -29,7 +29,8 @@ public class UserService {
     public List<User> getUsersByTeamId(Long id) {
         return userRepository.findByTeamId(id);
     }
-
+    public User getUserByEmail(String email){return userRepository.findByEmail(email)
+            .orElseThrow();}
     public User createUser(User user) {
         return userRepository.save(user);
     }
