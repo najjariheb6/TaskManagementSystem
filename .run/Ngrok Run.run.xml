@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Ngrok Run" type="ngrok-deploy" factoryName="Ngrok" server-name="Ngrok">
+    <deployment type="Ngrok">
+      <settings />
+    </deployment>
+    <method v="2">
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="mysql config" run_configuration_type="docker-deploy" />
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Dockerfile" run_configuration_type="docker-deploy" />
+    </method>
+  </configuration>
+</component>
