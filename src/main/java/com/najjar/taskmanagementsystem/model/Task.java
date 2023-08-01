@@ -30,4 +30,7 @@ public class Task {
     // this annotation make error when patching or updating , until we found a solution ...
     private Timestamp dueDate;
     private Long assignedUserId;
+
+    public Task(long l, String s, String s1) {
+    }
 }

@@ -27,10 +27,9 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public Optional<Task> getTaskById(Long taskId) {
-        return taskRepository.findById(taskId);
-    }
+    public Optional<Task> getTaskById(Long taskId) { return taskRepository.findById(taskId); }
 
+    public Task getTaskRefById(Long taskId) { return taskRepository.getReferenceById(taskId); }
     public List<Task> searchTasks(Integer priority, String status, Long assignedTo) {
         // Create a specification for filtering tasks based on the provided criteria
         Specification<Task> spec = Specification.where(null);
