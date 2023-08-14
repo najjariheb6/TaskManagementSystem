@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "teams")
 public class Team {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)

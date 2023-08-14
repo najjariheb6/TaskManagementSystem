@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Table(name = "tasks")
 public class Task {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)

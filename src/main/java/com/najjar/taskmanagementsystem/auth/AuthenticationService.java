@@ -8,6 +8,8 @@ import com.najjar.taskmanagementsystem.token.Token;
 import com.najjar.taskmanagementsystem.token.TokenRepository;
 import com.najjar.taskmanagementsystem.token.TokenType;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +23,8 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private static final Logger logger = LogManager.getLogger(AuthenticationService.class);
+
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
                 .email(request.getEmail())
@@ -31,6 +35,7 @@ public class AuthenticationService {
         var savedUser = repository.save(user);
         var jwtToken = jwtService.generateToken(user);
         saveUserToken(savedUser, jwtToken);
+        logger.info(savedUser.getEmail()+" has been registered!");
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
@@ -48,6 +53,8 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
+
+        logger.info(request.getEmail()+" has been connected!");
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
@@ -73,5 +80,6 @@ public class AuthenticationService {
             t.setRevoked(true);
         });
         tokenRepository.saveAll(validUserTokens);
+        logger.info("All tokens of "+ user.getEmail() +" has been revoked!");
     }
 }
