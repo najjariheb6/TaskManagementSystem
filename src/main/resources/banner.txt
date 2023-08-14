@@ -1,0 +1,10 @@
+
+
+${AnsiColor.BRIGHT_YELLOW} _____  _    ____  _  __ ${AnsiColor.RED} __  __    _    _   _    _    ____ _____ __  __ _____ _   _ _____  ${AnsiColor.BRIGHT_YELLOW} ______   ______ _____ _____ __  __
+${AnsiColor.BRIGHT_YELLOW}|_   _|/ \  / ___|| |/ / ${AnsiColor.RED}|  \/  |  / \  | \ | |  / \  / ___| ____|  \/  | ____| \ | |_   _| ${AnsiColor.BRIGHT_YELLOW}/ ___\ \ / / ___|_   _| ____|  \/  |
+${AnsiColor.BRIGHT_YELLOW}  | | / _ \ \___ \| ' /  ${AnsiColor.RED}| |\/| | / _ \ |  \| | / _ \| |  _|  _| | |\/| |  _| |  \| | | |   ${AnsiColor.BRIGHT_YELLOW}\___ \\ V /\___ \ | | |  _| | |\/| |
+${AnsiColor.BRIGHT_YELLOW}  | |/ ___ \ ___) | . \  ${AnsiColor.RED}| |  | |/ ___ \| |\  |/ ___ \ |_| | |___| |  | | |___| |\  | | |   ${AnsiColor.BRIGHT_YELLOW} ___) || |  ___) || | | |___| |  | |
+${AnsiColor.BRIGHT_YELLOW}  |_/_/   \_\____/|_|\_\ ${AnsiColor.RED}|_|  |_/_/   \_\_| \_/_/   \_\____|_____|_|  |_|_____|_| \_| |_|   ${AnsiColor.BRIGHT_YELLOW}|____/ |_| |____/ |_| |_____|_|  |_|
+                                                                                                                   BY Najjar Iheb
+${AnsiColor.DEFAULT}:: Spring Boot ::${spring-boot.formatted-version}
+
